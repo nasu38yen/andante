@@ -19,10 +19,10 @@ async function sendMessage (){
   <div>
     <h3>Messages</h3>
     <form @submit.prevent="sendMessage">
-      <input v-model="newMessage" placeholder="Type a message">
-      <button type="submit">
+      <UInput v-model="newMessage" placeholder="Type a message" />
+      <UButton type="submit">
         Send
-      </button>
+      </UButton>
     </form>
     <p v-for="message of messages" :key="message.id">
       {{ message.text }} - {{ new Date(message.created_at).toLocaleString('fr-FR') }}

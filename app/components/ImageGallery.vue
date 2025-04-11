@@ -26,9 +26,9 @@ async function deleteImage (pathname: string) {
     <h3>Images</h3>
     <form @submit.prevent="uploadImage">
       <label>Upload an image: <input type="file" name="image" accept="image/jpg,image/png"></label>
-      <button type="submit">
+      <UButton type="submit">
         Upload
-      </button>
+      </UButton>
     </form>
     <p>
       <img

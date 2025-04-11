@@ -8,8 +8,11 @@ export default defineNuxtConfig({
   // https://nuxt.com/modules
   modules: [
     '@nuxthub/core',
-    '@nuxt/eslint'
+    '@nuxt/eslint',
+    '@nuxt/ui',
+    'nuxt-auth-utils',
   ],
+  css: ['~/assets/css/main.css'],
   hub: {
     database: true,
     kv: true,

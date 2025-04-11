@@ -22,10 +22,10 @@ async function updateRedirects () {
   <div>
     <h3>Server redirects</h3>
     <form @submit.prevent="updateRedirects">
-      <p><textarea v-model="redirects.text" rows="6" placeholder="/from /to (one redirect per line)" style="width: 300px;" /></p>
-      <button type="submit">
+      <p><UTextarea v-model="redirects.text" :rows="6" placeholder="/from /to (one redirect per line)" style="width: 300px;" /></p>
+      <UButton type="submit">
         Save redirects
-      </button>
+      </UButton>
     </form>
   </div>
 </template>
