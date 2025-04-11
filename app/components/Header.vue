@@ -6,7 +6,7 @@
             <img src="/img/pyramid.svg" class="h-full p-1" alt="ci" />
           </div>
           <span class="text-cyan-900 text-xl md:text-3xl font-brand">
-            <nuxt-link to="/">Adagio</nuxt-link>
+            <nuxt-link to="/">Andante</nuxt-link>
           </span>
           <div class="flex flex-auto justify-end px-2">
             <ColorModeButton></ColorModeButton>
