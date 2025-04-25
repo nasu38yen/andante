@@ -15,7 +15,6 @@ export const users = sqliteTable('users', {
     .$onUpdateFn(() => sql`(current_timestamp)`),
 })
 
-
 export const projects = sqliteTable('projects', {
   id: integer('id').primaryKey({ autoIncrement: true }),
   name: text('name').notNull(),
