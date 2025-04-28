@@ -10,7 +10,7 @@
           </span>
           <div class="flex flex-auto justify-end px-2">
             <ColorModeButton></ColorModeButton>
-            <!-- <LoginStatus /> -->
+            <LoginStatus />
           </div>
         </div>
       </div>

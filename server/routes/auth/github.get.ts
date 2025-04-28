@@ -2,14 +2,19 @@ import { findUserByEmail } from "~~/server/utils/user"
 
 export default defineOAuthGitHubEventHandler({
   async onSuccess(event, { user }) {
-    const githubId = user.id
+    if (!user.email) {        
+      // GitHubのユーザー情報にメールアドレスがない場合
+      console.error('GitHub OAuth User has no email')
+      return sendRedirect(event, '/')
+    }
     const appuser = await findUserByEmail(user.email)
     if (!appuser) {
       // ユーザーが登録されていない場合
       console.error('GitHub OAuth User is not defined: ' + user.email)
-      return sendRedirect(event, '/login')
+      return sendRedirect(event, '/')
     }
-    // セッションに追加で保存するユーザー情報
+
+    //await setUserSession(event, { user });
     await setUserSession(event, { 
       user: {
         id: appuser.id,
@@ -17,7 +22,6 @@ export default defineOAuthGitHubEventHandler({
         email: appuser.email,
       },
     })
-    //await setUserSession(event, { user });
     return sendRedirect(event, '/home')
   },
 

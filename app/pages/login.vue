@@ -1,23 +1,15 @@
 <script lang="ts" setup>
-const loginWithGitHub = async () => {
-  // GitHub の認証ページにリダイレクト
-  await navigateTo('/auth/github', { external: true })
-}
-const loginWithGoogle = async () => {
-  // GitHub の認証ページにリダイレクト
-  await navigateTo('/auth/google', { external: true })
-}
 </script>
 
 <template>
   <div>
-    <UButton @click="loginWithGitHub">
-      GitHub でログイン
-    </UButton>
-  </div>
-  <div>
-    <UButton @click="loginWithGoogle">
-      Google でログイン
-    </UButton>
+    <div>
+      <h1>ログイン</h1>
+      <LoginForm />
+    </div>
+    <div class="mt-4">
+      <p>または、以下のボタンをクリックしてログインしてください。</p>    
+      <OAuthLoginList />
+    </div>
   </div>
 </template>
