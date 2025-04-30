@@ -1,7 +1,5 @@
 <template>
   <main>
-    <ImageGallery />
-    <RedirectsPanel />
-    <MessagesPanel />
+    <div>ホーム画面</div>
   </main>
 </template>

@@ -24,9 +24,9 @@ async function sendMessage (){
         Send
       </UButton>
     </form>
-    <p v-for="message of messages" :key="message.id">
-      {{ message.text }} - {{ new Date(message.created_at).toLocaleString('fr-FR') }}
-    </p>
+    <div v-for="message of messages" :key="message.id">
+      <span>{{ message.text }} -</span> <span v-if="message.created_at">{{ new Date(message.created_at) }}</span>
+    </div>
     <p v-if="!messages?.length">
       No messages yet
     </p>

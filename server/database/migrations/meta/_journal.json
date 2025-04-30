@@ -8,6 +8,48 @@
       "when": 1744354824461,
       "tag": "0000_spotty_silver_samurai",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1745974509449,
+      "tag": "0001_jittery_jubilee",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1745975143769,
+      "tag": "0002_cynical_wilson_fisk",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1745975299402,
+      "tag": "0003_nasty_runaways",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1745980804766,
+      "tag": "0004_greedy_warbird",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1745981081107,
+      "tag": "0005_nice_jack_power",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1745993744129,
+      "tag": "0006_lying_clint_barton",
+      "breakpoints": true
     }
   ]
 }

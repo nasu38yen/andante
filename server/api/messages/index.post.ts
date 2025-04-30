@@ -4,7 +4,7 @@ export default eventHandler(async (event) => {
 
   await db
     .prepare('INSERT INTO messages (text, created_at) VALUES (?1, ?2)')
-    .bind(text, Date.now())
+    .bind(text, new Date().toLocaleString())
     .run()
 
   return {}
