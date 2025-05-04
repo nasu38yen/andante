@@ -1,0 +1,1 @@
+ALTER TABLE `users` ADD `verified_at` text;

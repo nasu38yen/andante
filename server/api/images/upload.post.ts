@@ -4,6 +4,9 @@ export default eventHandler(async (event) => {
     ensure: {
       maxSize: '8MB',
       types: ['image/png', 'image/jpeg']
+    },
+    put: {
+      prefix: 'images/',
     }
   })
 })

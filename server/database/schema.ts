@@ -17,6 +17,7 @@ export const users = sqliteTable('users', {
   avatar: text('avatar'),
   githubId: integer('github_id').unique(),
   githubToken: text('github_token'),
+  verifiedAt: text('verified_at'),
   ...timestamps
 })
 

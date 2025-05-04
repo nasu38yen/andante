@@ -4,9 +4,9 @@
             <div class="sticky top-0">
                 <Header />
             </div>
-            <div class="container mx-auto max-w-screen-xl px-2"> 
+            <UContainer>
                 <slot />
-            </div>        
+            </UContainer>
             <div class="pt-2">
                 <Footer />
             </div>
