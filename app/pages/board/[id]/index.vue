@@ -2,6 +2,7 @@
     import type { TableColumn } from '@nuxt/ui'
     import { h, resolveComponent } from 'vue'
     import type { Row } from '@tanstack/vue-table'
+    import { MessagePostModal } from '#components'
 
     definePageMeta({
         middleware: 'auth',
@@ -15,7 +16,6 @@
     const refreshList = async () => {
       await refresh()
     }
-
     const UButton = resolveComponent('UButton')
     const UDropdownMenu = resolveComponent('UDropdownMenu')
     const MessageFilesView = resolveComponent('MessageFilesView')
@@ -68,32 +68,67 @@
         }
       }
     ]
+
     function getRowActionItems(row: Row<Message>) {
       return [
         {
           label: '編集',
           onSelect() {
-            navigateTo(`/message/${row.original.id}/edit`)
+            modalOpenEdit(row.original)
           }
         },
         {
           label: '削除',
           onSelect() {
-            navigateTo(`/message/${row.original.id}/delete`)
           }
         },
       ]
     }    
+    
+    const newMessage = {      
+        id: 0,
+        text: '',
+        boardId: id,
+        files: '',
+    }
+
+    const overlay = useOverlay()
+    const modal = overlay.create(MessagePostModal, {
+      props: {
+        message: null,
+      }
+    })    
+
+    const modalOpenNew = async () => {
+      modal.patch({ message: newMessage })
+      const dr =  await modal.open()
+      if (dr) {
+        refreshList()
+      }
+    }
+    const modalOpenEdit = async (message: Message) => {
+      modal.patch({ message: message })
+      const dr =  await modal.open()
+      if (dr) {
+        refreshList()
+      }
+    }
+
 </script>
 
 <template>
   <div>
     <h3>Board</h3>
     <div>{{ board?.name }}</div>
+    <div>
+      <UButton @click="modalOpenNew" color="primary" size="sm" class="mb-4">
+        <i class="i-lucide-plus"></i>
+        新規メッセージ
+      </UButton>
+    </div>
     <UTable :data="messages" :columns="columns" class="flex-1" />
     <p v-if="!messages?.length">
       No messages yet
     </p>
-    <MessagePost :boardId="id" @onPost="refreshList" />
   </div>
 </template>

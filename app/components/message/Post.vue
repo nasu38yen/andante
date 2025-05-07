@@ -2,20 +2,18 @@
     import * as v from 'valibot'
     import type { FormSubmitEvent } from '@nuxt/ui'
 
+    const props = defineProps({
+        data: {
+            type: Object as () => Message,
+            required: true,
+        }
+    })
+    const state = reactive(props.data!)
+    const emit = defineEmits(["onPost"])
+
     import { ref } from 'vue'
     import MessageFileUpload from '~/components/message/FileUpload.vue'
     const uploadRef = ref<InstanceType<typeof MessageFileUpload>>()
-
-    const props = defineProps({
-        boardId: String,
-    })
-
-    const emit = defineEmits(["onPost"])
-
-    const state = reactive({
-        text: '',
-        boardId: props.boardId,
-    })
 
     const schema = v.object({
         text: v.pipe(v.string(), v.maxLength(200, '200文字までです')),
@@ -34,9 +32,8 @@
         } else {
           //alert('Failed to post message:\n'+ res.data?.message)
         }
+        emit('onPost')
       })
-      state.text = ''
-      emit('onPost')
     }
 </script>
 

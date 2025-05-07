@@ -16,7 +16,9 @@ export default eventHandler(async (event) => {
         const files = message.files ? JSON.parse(message.files) : []
         for (const blob of blobs) {
           const filename = blob.pathname.split('/').pop()
-          files.push(filename!)
+          if (!files.includes(filename!)) {
+            files.push(filename!)
+          }
         }
         await useDrizzle().update(tables.messages).set({
           files: JSON.stringify(files),

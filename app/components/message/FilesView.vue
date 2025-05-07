@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import { NuxtLink } from '#components';
-
     const props = defineProps({
         files: String,
         messageId: String,
-    })    
-    const files = JSON.parse(props.files!)
+    })
+    const files = computed(() => JSON.parse(props.files!))
 </script>
 
 <template>
