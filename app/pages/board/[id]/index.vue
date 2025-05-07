@@ -18,6 +18,7 @@
 
     const UButton = resolveComponent('UButton')
     const UDropdownMenu = resolveComponent('UDropdownMenu')
+    const MessageFilesView = resolveComponent('MessageFilesView')
 
     const columns: TableColumn<Message>[] = [
       {
@@ -27,6 +28,13 @@
       {
         accessorKey: 'text',
         header: 'メッセージ',
+      },
+      {
+        accessorKey: 'files',
+        header: 'ファイル',
+        cell: ({ row }) => {
+          return h(MessageFilesView, { files: row.original.files, messageId: row.original.id.toString() })
+        } 
       },
       {
         accessorKey: 'createdAt',

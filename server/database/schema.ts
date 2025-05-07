@@ -25,6 +25,7 @@ export const boards = sqliteTable('boards', {
   id: integer('id').primaryKey({ autoIncrement: true }),
   name: text('name').notNull(),
   authorId: integer("author_id").references(() => users.id),
+  users: text('users'),
   ...timestamps
 })
 
@@ -33,5 +34,6 @@ export const messages = sqliteTable('messages', {
   text: text('text').notNull(),
   authorId: integer("author_id").references(() => users.id),
   boardId: integer("board_id").references(() => boards.id),
+  files: text('files'),
   ...timestamps
 })

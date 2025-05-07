@@ -43,7 +43,7 @@
 <template>
   <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
     <UFormField label="メッセージ" name="text">
-      <UInput v-model="state.text" />
+      <UTextarea  v-model="state.text" />
     </UFormField>
     <MessageFileUpload ref="uploadRef"  />
     <UButton type="submit">
