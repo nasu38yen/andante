@@ -36,7 +36,7 @@
     <ul>
       <li v-for="(file, index) in selectedFiles" :key="index">
         {{ file.name }}
-        <button @click="removeFile(index)">削除</button>
+        <UButton @click="removeFile(index)">削除</UButton>
       </li>
     </ul>
     <div>

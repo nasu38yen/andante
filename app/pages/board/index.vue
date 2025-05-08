@@ -11,6 +11,7 @@
 
     const UButton = resolveComponent('UButton')
     const UDropdownMenu = resolveComponent('UDropdownMenu')
+    const BoardLinkColumn = resolveComponent('BoardLinkColumn')
 
     const columns: TableColumn<Board>[] = [
       {
@@ -20,6 +21,9 @@
       {
         accessorKey: 'name',
         header: '板名称',
+        cell: ({ row }) => {
+          return h(BoardLinkColumn, { name: row.original.name, id: row.original.id.toString() })
+        } 
       },
       {
         accessorKey: 'createdAt',

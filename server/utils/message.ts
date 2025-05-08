@@ -26,5 +26,12 @@ export async function updateMessage(message: MessageInsert) {
         files: message.files,
       }).where(eq(tables.messages.id, message.id!)).returning().get()    
 }
+  
+export async function deleteMessage(id: number) {
+    const deleted = await useDrizzle().delete(tables.messages).where(and(
+        eq(tables.messages.id, id)
+      )).returning().get()
+    return deleted
+}
     
 

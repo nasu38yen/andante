@@ -2,7 +2,7 @@
     import type { TableColumn } from '@nuxt/ui'
     import { h, resolveComponent } from 'vue'
     import type { Row } from '@tanstack/vue-table'
-    import { MessagePostModal } from '#components'
+    import { MessagePostModal, ConfirmModal } from '#components'
 
     definePageMeta({
         middleware: 'auth',
@@ -80,6 +80,7 @@
         {
           label: '削除',
           onSelect() {
+            deleteMessage(row.original)
           }
         },
       ]
@@ -93,23 +94,35 @@
     }
 
     const overlay = useOverlay()
-    const modal = overlay.create(MessagePostModal, {
+    const postModal = overlay.create(MessagePostModal, {
       props: {
         message: null,
       }
     })    
+    const confirmModal = overlay.create(ConfirmModal, {
+    })
 
     const modalOpenNew = async () => {
-      modal.patch({ message: newMessage })
-      const dr =  await modal.open()
+      postModal.patch({ message: newMessage })
+      const dr =  await postModal.open()
       if (dr) {
         refreshList()
       }
     }
     const modalOpenEdit = async (message: Message) => {
-      modal.patch({ message: message })
-      const dr =  await modal.open()
+      postModal.patch({ message: message })
+      const dr =  await postModal.open()
       if (dr) {
+        refreshList()
+      }
+    }
+
+    const deleteMessage = async (message: Message) => {
+      const dr =  await confirmModal.open()
+      if (dr) {
+        await $fetch('/api/messages/' + message.id, {
+          method: 'DELETE',
+        })
         refreshList()
       }
     }

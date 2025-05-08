@@ -21,6 +21,7 @@
     type Schema = v.InferOutput<typeof schema>
 
     async function onSubmit(event: FormSubmitEvent<Schema>) {     
+      alert('onSubmit!')
       await $fetch('/api/messages/board', {
         method: 'POST',
         body: state
@@ -42,6 +43,7 @@
     <UFormField label="メッセージ" name="text">
       <UTextarea  v-model="state.text" />
     </UFormField>
+    <MessageFilesEdit v-model="state.files!" />
     <MessageFileUpload ref="uploadRef"  />
     <UButton type="submit">
       登録

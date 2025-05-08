@@ -30,6 +30,7 @@ export async function appendBoard(board: BoardInsert) {
 export async function updateBoard(board: BoardInsert) {
     return useDrizzle().update(tables.boards).set({
         name: board.name,
+        users: board.users,
         authorId: board.authorId,
       }).where(eq(tables.boards.id, board.id!)).returning().get()    
 }

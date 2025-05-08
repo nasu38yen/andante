@@ -49,6 +49,8 @@
       <UInput v-model="state.name" />
     </UFormField>
 
+    <BoardUsersEdit v-model="state.users!" />
+
     <UAlert v-if="showAlert"
       :description="errorMessage"
       class="rounded-none"
