@@ -9,33 +9,27 @@
     type Schema = v.InferOutput<typeof schema>
 
     const { fetch: refreshSession  } = useUserSession()
-    const state = reactive({
+    const state = ref({
         email: '',
         password: ''
     })
 
     const showAlert = ref(false)
     const errorMessage = ref('')
-
-    // const toast = useToast()
-    // async function onSubmit(event: FormSubmitEvent<Schema>) {
-    //     toast.add({ title: 'Success', description: 'The form has been submitted.', color: 'success' })
-    //     console.log(event.data)
-    // }
+    const showPassword = ref(false)
+1
     async function onSubmit(event: FormSubmitEvent<Schema>) {
       showAlert.value = false
       errorMessage.value = ''
       
       await $fetch('/api/login', {
         method: 'POST',
-        body: state
+        body: state.value
       })
       .then(async () => {
-        // Refresh the session on client-side and redirect to the home page
         await refreshSession()
-        await navigateTo('/home')
+        await navigateTo('/board')
       })
-      //.catch(() => alert('Bad credentials'))      
       .catch(() => {
         showAlert.value = true
         errorMessage.value = 'メールアドレスまたはパスワードが間違っています'
@@ -47,12 +41,13 @@
   <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
 
     <UFormField label="Email" name="email">
-      <UInput v-model="state.email" />
+      <UInput v-model="state.email" class="w-80" />
     </UFormField>
 
     <UFormField label="Password" name="password">
-      <UInput v-model="state.password" type="password" />
+      <UInput v-model="state.password" :type="showPassword ? 'text' : 'password'" class="w-80" />
     </UFormField>
+    <UCheckbox v-model="showPassword" label="パスワードを表示する"></UCheckbox>
 
     <UAlert v-if="showAlert"
       :description="errorMessage"

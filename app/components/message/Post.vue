@@ -2,14 +2,8 @@
     import * as v from 'valibot'
     import type { FormSubmitEvent } from '@nuxt/ui'
 
-    const props = defineProps({
-        data: {
-            type: Object as () => Message,
-            required: true,
-        }
-    })
-    const state = reactive(props.data!)
-    const emit = defineEmits(["onPost"])
+    const state = defineModel<VMessage>({ required: true });
+    const emit = defineEmits(["onPost", "onClose"])
 
     import { ref } from 'vue'
     import MessageFileUpload from '~/components/message/FileUpload.vue'
@@ -21,10 +15,10 @@
     type Schema = v.InferOutput<typeof schema>
 
     async function onSubmit(event: FormSubmitEvent<Schema>) {     
-      alert('onSubmit!')
       await $fetch('/api/messages/board', {
         method: 'POST',
-        body: state
+        //body: state
+        body: state.value
       })
       .then(async (res) => {
         if (res) {
@@ -36,17 +30,20 @@
         emit('onPost')
       })
     }
+
+    const closeForm = () => {
+      emit('onClose')
+    } 
 </script>
 
 <template>
-  <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
+  <UForm :schema="schema" :state="state!" class="space-y-4" @submit="onSubmit">
     <UFormField label="メッセージ" name="text">
       <UTextarea  v-model="state.text" />
     </UFormField>
-    <MessageFilesEdit v-model="state.files!" />
+    <MessageFilesEdit v-model="state.files" />
     <MessageFileUpload ref="uploadRef"  />
-    <UButton type="submit">
-      登録
-    </UButton>
+    <UButton type="submit">登録</UButton>
+    <UButton @click="closeForm">閉じる</UButton>
   </UForm>
 </template>

@@ -10,7 +10,7 @@
 </script>
 
 <template>
-    <div>
+    <div class="flex items-center gap-4">
         <UButton @click="loginWithGitHub">GitHub でログイン</UButton>
         <UButton @click="loginWithGoogle">Google でログイン</UButton>
     </div>

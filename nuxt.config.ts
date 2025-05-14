@@ -11,6 +11,7 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@nuxt/ui',
     'nuxt-auth-utils',
+    'nuxt-lodash'
   ],
   css: ['~/assets/css/main.css'],
   hub: {

@@ -15,11 +15,12 @@ export default defineOAuthGoogleEventHandler({
           id: appuser.id,
           name: appuser.name,
           email: appuser.email,
+          role: appuser.role ? appuser.role : 'user',          
         },
       })
 
       // ログイン後画面にリダイレクト
-      return sendRedirect(event, '/home');
+      return sendRedirect(event, '/board');
     },
     
     onError(event, error) {

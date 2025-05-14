@@ -20,9 +20,10 @@ export default defineOAuthGitHubEventHandler({
         id: appuser.id,
         name: appuser.name,
         email: appuser.email,
+        role: appuser.role ? appuser.role : 'user',
       },
     })
-    return sendRedirect(event, '/home')
+    return sendRedirect(event, '/board')
   },
 
   onError(event, error) {

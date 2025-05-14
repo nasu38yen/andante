@@ -1,5 +1,5 @@
 import type { SQL } from 'drizzle-orm'
-import { MessageInsert } from './drizzle'
+import { MessageInsert, like, desc } from './drizzle'
 
 export async function findMessageByBoardId(boardId: number) {
     return useDrizzle().select().from(tables.messages)

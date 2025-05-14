@@ -1,5 +1,5 @@
 import type { SQL } from 'drizzle-orm'
-import { BoardInsert } from './drizzle'
+import { BoardInsert, like, desc } from './drizzle'
   
 export async function findBoardAll() {
     return useDrizzle().select().from(tables.boards).all()
@@ -9,9 +9,16 @@ export async function findBoardBy(query: SQL | undefined) {
     return useDrizzle().select().from(tables.boards).where(query).get()
 }
   
-export async function findBoardByUserId(userId: number) {
+export async function findBoardByUser(id: number, role: string, email: string) {
+    const conditions: SQL[] = [];
+    if (role === 'admin') {
+        conditions.push(eq(tables.boards.authorId, id))
+    }
+    conditions.push(like(tables.boards.users, `%${email}%`))
+
     return useDrizzle().select().from(tables.boards)
-        .where(eq(tables.boards.authorId, userId))
+        .where(or(...conditions))
+        .orderBy(desc(tables.boards.updatedAt))
         .all()
 }
   
@@ -33,6 +40,12 @@ export async function updateBoard(board: BoardInsert) {
         users: board.users,
         authorId: board.authorId,
       }).where(eq(tables.boards.id, board.id!)).returning().get()    
+}
+
+export async function updateBoardTimestamp(boardId: number) {
+    return useDrizzle().update(tables.boards).set({
+        updatedAt: new Date().toLocaleString()
+      }).where(eq(tables.boards.id, boardId!)).returning().get()    
 }
   
 export async function deleteBoard(id: number) {

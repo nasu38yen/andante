@@ -1,3 +1,4 @@
+import { updateBoardTimestamp } from '~~/server/utils/board'
 import { deleteMessage } from "~~/server/utils/message"
 
 const deleteblobs = async (id: string) => {
@@ -19,5 +20,6 @@ export default defineEventHandler(async (event) => {
     if (!deleted) {
         throw createError({ statusCode: 404, statusMessage: "Not Found", message: "Board not found" })
     }
+    await updateBoardTimestamp(deleted.boardId!)
     return deleted
 })

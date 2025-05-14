@@ -3,13 +3,11 @@
 
 <template>
   <div>
-    <div>
-      <h1>ログイン</h1>
-      <LoginForm />
-    </div>
-    <div class="mt-4">
+    <PageTitle>ログイン</PageTitle>
+    <LoginForm />
+    <div class="my-8">
       <p>または、以下のボタンをクリックしてログインしてください。</p>    
-      <OAuthLoginList />
+      <OAuthLogins class="mt-4" />
     </div>
   </div>
 </template>

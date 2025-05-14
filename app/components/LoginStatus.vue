@@ -5,12 +5,12 @@
 
 <template>
     <AuthState>
-      <template #default="{ loggedIn }">
-        <NuxtLink v-if="loggedIn" to="/profile">{{ userName }}</NuxtLink>
-        <NuxtLink v-else to="/login">ログイン</NuxtLink>
+      <template #default="{ loggedIn }">        
+        <UButton v-if="loggedIn" to="/profile">{{ userName }}</UButton>
+        <UButton v-else to="/login">ログイン</UButton>
       </template>
       <template #placeholder>
-        <button disabled>Loading...</button>
+        <UButton disabled>Loading...</UButton>
       </template>
     </AuthState>
 </template>

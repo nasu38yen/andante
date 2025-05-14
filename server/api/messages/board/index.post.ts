@@ -1,17 +1,6 @@
-import { file } from "valibot"
-import { appendMessage } from "~~/server/utils/message"
 
-// filesにないblobを削除する
-const files2blob = async (filesText: string, id: number) => {
-  const files = JSON.parse(filesText)
-  const { blobs } = await hubBlob().list({prefix: id.toString()})
-  for (const blob of blobs) {
-    const blobname = blob.pathname.split('/').pop()
-    if (!files.includes(blobname!)) {
-      await hubBlob().delete(blob.pathname)
-    }
-  }
-}
+import { appendMessage, updateMessage } from '~~/server/utils/message'
+import { updateBoardTimestamp } from '~~/server/utils/board'
 
 export default eventHandler(async (event) => {
   const { user } = await requireUserSession(event)
@@ -25,6 +14,7 @@ export default eventHandler(async (event) => {
       authorId: user.id,
     })
     await files2blob(files, id)
+    await updateBoardTimestamp(boardId)
     return message
   }
 
@@ -33,5 +23,18 @@ export default eventHandler(async (event) => {
     boardId: boardId,
     authorId: user.id,
   })
+  await updateBoardTimestamp(boardId)
   return message
 })
+
+// filesにないblobを削除する
+const files2blob = async (filesText: string, id: number) => {
+  const files = JSON.parse(filesText)
+  const { blobs } = await hubBlob().list({prefix: id.toString()})
+  for (const blob of blobs) {
+    const blobname = blob.pathname.split('/').pop()
+    if (!files.includes(blobname!)) {
+      await hubBlob().delete(blob.pathname)
+    }
+  }
+}

@@ -8,3 +8,10 @@ export async function findUserByEmail(email: string) {
     .where(eq(tables.users.email, email))
     .get()
 }
+
+export async function findAllUsers() {
+  return useDrizzle()
+    .select()
+    .from(tables.users)
+    .all()
+}

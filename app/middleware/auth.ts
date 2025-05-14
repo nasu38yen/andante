@@ -4,4 +4,4 @@ export default defineNuxtRouteMiddleware(() => {
     
     // 未ログインなら、ログイン画面にリダイレクト
     if (!loggedIn.value) return navigateTo('/login');
-  });
+});

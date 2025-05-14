@@ -1,62 +1,48 @@
 <script setup lang="ts">
-    import type { TableColumn } from '@nuxt/ui'
-    import { h, resolveComponent } from 'vue'
-    import type { Row } from '@tanstack/vue-table'
-
     definePageMeta({
         middleware: 'auth',
     })
 
     const { data: boards } = await useFetch('/api/boards')
 
-    const UButton = resolveComponent('UButton')
-    const UDropdownMenu = resolveComponent('UDropdownMenu')
+    onMounted(() => {
+      if (boards.value && boards.value.length === 1)  {
+        // 1件だけの時は、詳細画面に遷移
+        const id = boards.value[0]?.id
+        navigateTo(`/board/${id}`)     
+      } else {
+        console.log('user is null');
+      }
+    });  
+
+
+    import type { TableColumn } from '@nuxt/ui'
+    import { h, resolveComponent } from 'vue'
+    import type { Row } from '@tanstack/vue-table'
+
     const BoardLinkColumn = resolveComponent('BoardLinkColumn')
+    const TableActionsColumn = resolveComponent('TableActionsColumn')
 
     const columns: TableColumn<Board>[] = [
       {
-        accessorKey: 'id',
-        header: 'ID',
-      },
-      {
         accessorKey: 'name',
-        header: '板名称',
+        header: '伝言板',
         cell: ({ row }) => {
           return h(BoardLinkColumn, { name: row.original.name, id: row.original.id.toString() })
         } 
       },
       {
-        accessorKey: 'createdAt',
-        header: '作成日時',
+        accessorKey: 'updatedAt',
+        header: '更新日時',
       },
       {
         id: 'actions',
         cell: ({ row }) => {
-          return h(
-            'div',
-            { class: 'text-right' },
-            h(
-              UDropdownMenu,
-              {
-                content: {
-                  align: 'end'
-                },
-                items: getRowActionItems(row),
-                'aria-label': 'Actions dropdown'
-              },
-              () =>
-                h(UButton, {
-                  icon: 'i-lucide-ellipsis-vertical',
-                  color: 'neutral',
-                  variant: 'ghost',
-                  class: 'ml-auto',
-                  'aria-label': 'Actions dropdown'
-                })
-            )
-          )
+          return h(TableActionsColumn, { items: getRowActionItems(row) })
         }
       }
     ]
+
     function getRowActionItems(row: Row<Board>) {
       return [
         {
@@ -76,10 +62,10 @@
 </script>
 
 <template>
-  <div>
-    <h3>Boards</h3>
+  <div class="mb-4">
+    <PageTitle>伝言板一覧</PageTitle>
     <div>
-      <NuxtLink to="/board/create" class="btn btn-primary">新規追加</NuxtLink>
+      <UButton to="/board/create">伝言板を追加</UButton>
     </div>
     <UTable :data="boards" :columns="columns" class="flex-1" />
     <p v-if="!boards?.length">

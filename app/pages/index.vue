@@ -1,5 +1,17 @@
+<script setup lang="ts">
+  const { loggedIn, user } = useUserSession();
+  onMounted(() => {
+    if (loggedIn.value) {      
+      navigateTo('/board')
+    } else {
+      console.log('user is null');
+    }
+  });  
+</script>
+
 <template>
   <main>
-    <div>ホーム画面</div>
+    <PageTitle>ホーム画面</PageTitle>
+
   </main>
 </template>

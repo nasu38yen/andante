@@ -1,17 +1,17 @@
 <script setup lang="ts">
-    import type { TableColumn } from '@nuxt/ui'
-    import { h, resolveComponent } from 'vue'
-    import type { Row } from '@tanstack/vue-table'
-    import { MessagePostModal, ConfirmModal } from '#components'
-
     definePageMeta({
         middleware: 'auth',
     })
 
+    import type { TableColumn } from '@nuxt/ui'
+    import { h, resolveComponent } from 'vue'
+    import type { Row } from '@tanstack/vue-table'
+    import { ConfirmModal } from '#components'
+
     const route = useRoute()
     const id = route.params.id
     const { data: board } = await useFetch(`/api/boards/${id}`)
-    const { data: messages, refresh } = await useFetch('/api/messages/board/' + id)
+    const { data: messages, refresh } = await useFetch(`/api/messages/board/${id}`)
 
     const refreshList = async () => {
       await refresh()
@@ -24,6 +24,7 @@
       {
         accessorKey: 'id',
         header: 'ID',
+        // meta: { class: {td: 'w-1 text-red-500'} },  
       },
       {
         accessorKey: 'text',
@@ -74,7 +75,7 @@
         {
           label: '編集',
           onSelect() {
-            modalOpenEdit(row.original)
+            openEditPost(row.original)
           }
         },
         {
@@ -85,37 +86,49 @@
         },
       ]
     }    
-    
-    const newMessage = {      
+
+    const newMessage = <VMessage>{
+      id: 0,
+      text: '',
+      boardId: id,
+      files: '[]',
+    }
+
+    const formData = ref(newMessage)
+    const showForm = ref(false)
+
+    const openNewPost = () => {
+      formData.value = {
         id: 0,
         text: '',
-        boardId: id,
-        files: '',
+        boardId: id? id.toString() : '',
+        files: '[]',
+      }
+      showForm.value = true
     }
+
+    const openEditPost = (message: Message) => {
+      formData.value =  {
+        id: message.id,
+        text: message.text,
+        boardId: message.boardId ? message.boardId.toString() : '0',
+        files: message.files ? message.files : '[]',
+      }      
+      showForm.value = true
+    }
+
+    const afterPost = async () => {
+      refreshList()
+      showForm.value = false
+    }
+
+    const closeForm = () => {
+      showForm.value = false
+    } 
 
     const overlay = useOverlay()
-    const postModal = overlay.create(MessagePostModal, {
-      props: {
-        message: null,
-      }
-    })    
     const confirmModal = overlay.create(ConfirmModal, {
     })
-
-    const modalOpenNew = async () => {
-      postModal.patch({ message: newMessage })
-      const dr =  await postModal.open()
-      if (dr) {
-        refreshList()
-      }
-    }
-    const modalOpenEdit = async (message: Message) => {
-      postModal.patch({ message: message })
-      const dr =  await postModal.open()
-      if (dr) {
-        refreshList()
-      }
-    }
 
     const deleteMessage = async (message: Message) => {
       const dr =  await confirmModal.open()
@@ -126,18 +139,21 @@
         refreshList()
       }
     }
-
 </script>
 
 <template>
   <div>
     <h3>Board</h3>
     <div>{{ board?.name }}</div>
-    <div>
-      <UButton @click="modalOpenNew" color="primary" size="sm" class="mb-4">
+    <div v-show="!showForm">
+      <UButton @click="openNewPost" color="primary" size="sm" class="mb-4">
         <i class="i-lucide-plus"></i>
         新規メッセージ
       </UButton>
+    </div>
+    <div v-show="showForm">
+      <!-- <MessagePost :data="formData" @onPost="afterPost"  /> -->
+      <MessagePost v-model="formData" @onPost="afterPost" @onClose="closeForm"  />
     </div>
     <UTable :data="messages" :columns="columns" class="flex-1" />
     <p v-if="!messages?.length">
