@@ -1,14 +1,10 @@
 <script setup lang="ts">
     definePageMeta({
-        middleware: 'auth',
+        middleware: 'admin',
     })
 </script>
 
 <template>
-  <div>
-    <h3>新規追加</h3>
-    <div>
-        <BoardEditForm />
-    </div>
-  </div>
+  <PageTitle>伝言板の追加</PageTitle>
+  <BoardEditForm />
 </template>

@@ -42,25 +42,23 @@
 <template>
   <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
     <div>
-        <UInput type="hidden" name="id" v-model="state.id" />
+        <input type="hidden" name="id" v-model="state.id" />
     </div>
 
-    <UFormField label="伝言板名称" name="name">
-      <UInput v-model="state.name" />
+    <UFormField label="名称" name="name">
+      <UInput v-model="state.name" class="w-96" />
     </UFormField>
 
-    <BoardUsersEdit v-model="state.users!" />
+    <UFormField label="利用者" name="name">
+      <BoardUsersEdit v-model="state.users!" />
+    </UFormField>
 
-    <UAlert v-if="showAlert"
-      :description="errorMessage"
-      class="rounded-none"
-      color="error"
-      variant="soft"
-    />
+    <UAlert v-if="showAlert" :description="errorMessage" class="rounded-none" color="error" variant="soft" />
 
-    <UButton type="submit">
-      登録
-    </UButton>
+    <div class="flex items-center gap-2 mb-4">
+      <UButton type="submit">登録</UButton>
+      <UButton to="/board" color="neutral" variant="outline">戻る</UButton>
+    </div>
   </UForm>
 </template>
 

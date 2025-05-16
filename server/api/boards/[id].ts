@@ -1,7 +1,7 @@
 import { findBoardById } from "~~/server/utils/board"
 
 export default defineEventHandler(async (event) => {
-    const { user } = await requireUserSession(event)
+    const { user } = await requireAdminSession(event)
 
     const id = getRouterParam(event, 'id')
     if (!id) {
@@ -11,6 +11,9 @@ export default defineEventHandler(async (event) => {
     const board = await findBoardById(numid)
     if (!board) {
         throw createError({ statusCode: 400, statusMessage: "Bad Request", message: "Nothind data" })
+    }
+    if (board.authorId !== user.id) {
+        throw createError({ statusCode: 403, statusMessage: "Forbidden", message: "Not own" })
     }
     return board
 })

@@ -14,8 +14,10 @@
   <div>
     <ul>
       <li v-for="(file, index) in files" :key="index">
-        {{ file }}
-        <UButton @click="removeFile(index)">削除</UButton>
+        <div class="flex items-center">
+          <UButton @click="removeFile(index)" icon="i-lucide-x" color="neutral" variant="ghost"></UButton>
+          <span>{{ file }}</span>
+        </div>
       </li>
     </ul>
   </div>

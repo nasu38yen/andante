@@ -9,16 +9,21 @@ const deleteblobs = async (id: string) => {
   }
   
 export default defineEventHandler(async (event) => {
+    const { user } = await requireUserSession(event)
     const { id } = getRouterParams(event)
-    // if (!id) {
-    //     throw createError({ statusCode: 400, statusMessage: "Bad Request", message: "Missing board id" })
-    // }
+    
+    // 投稿者以外はアップロードできない
+    const message = await findMessageById(Number(id))
+    if (message?.authorId !== user.id) {
+      throw createError({ statusCode: 400, statusMessage: "Bad Request", message: "Not owner" })
+    }
+
     await deleteblobs(id)
     
     const numid = Number(id);
     const deleted = await deleteMessage(numid)
     if (!deleted) {
-        throw createError({ statusCode: 404, statusMessage: "Not Found", message: "Board not found" })
+        throw createError({ statusCode: 404, statusMessage: "Not Found", message: "Message not found" })
     }
     await updateBoardTimestamp(deleted.boardId!)
     return deleted

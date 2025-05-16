@@ -1,17 +1,21 @@
 <script setup lang="ts">
-    definePageMeta({
-        middleware: 'auth',
-    })
-    const route = useRoute()
-    const id = route.params.id
-    const { data: board } = await useFetch(`/api/boards/${id}`)
+  definePageMeta({
+      middleware: 'admin', 
+      title: '伝言板の編集',
+  })
+  const route = useRoute()
+  const id = route.params.id
+  const { data: board } = await useFetch(`/api/boards/${id}`)
+
+  const { user } = useUserSession();
+  onMounted(() => {
+    if (!board.value || !user.value || board.value.authorId !== user.value.id) {      
+        throw createError({ statusCode: 403, statusMessage: 'Forbidden', message: 'この伝言板はあなたのものではありません。' });
+    }
+  });  
 </script>
 
 <template>
-  <div>
-    <h3>板の編集</h3>
-    <div>
-        <BoardEditForm :data="board" />
-    </div>
-  </div>
+  <PageTitle>伝言板の設定</PageTitle>
+  <BoardEditForm :data="board" />
 </template>

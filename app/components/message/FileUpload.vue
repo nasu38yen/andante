@@ -1,4 +1,12 @@
 <script setup lang="ts">
+    const props = defineProps({
+        id: {
+            type: String,
+            required: true,
+        }
+    })
+    const fileInputId = `file_select_${props.id}`
+
     const selectedFiles = ref<File[]>([]);
 
     const handleFileSelect = (event: Event) => {
@@ -12,8 +20,8 @@
       selectedFiles.value.splice(index, 1);
     };
     
-    const uploadFiles = async (messageId: String) => {
-      const upload = useUpload(`/api/messages/${messageId}/upload`, {
+    const uploadFiles = async (id: string) => {
+      const upload = useUpload(`/api/messages/${id}/upload`, {
           multiple: false
       })
       for (const file of selectedFiles.value) {
@@ -21,7 +29,7 @@
         .then(async () => {
           // console.log(`${file.name} のアップロード成功`);
         })
-        .catch((err) => alert('Failed to upload image:\n'+ err.data?.message))
+        .catch((err) => alert('Failed to upload file:\n'+ err.data?.message))
       }
       selectedFiles.value.splice(0)
     };
@@ -35,15 +43,17 @@
   <div>
     <ul>
       <li v-for="(file, index) in selectedFiles" :key="index">
-        {{ file.name }}
-        <UButton @click="removeFile(index)">削除</UButton>
+        <div class="flex items-center">
+          <UButton @click="removeFile(index)" icon="i-lucide-x" color="neutral" variant="ghost"></UButton>
+          <span>{{ file.name }}</span>
+        </div>
       </li>
     </ul>
-    <div>
-      <label for="file_select" class="bg-blue-100 text-blue-500 hover:bg-blue-200 hover:text-blue-700 rounded-md px-4 py-2 cursor-pointer">
-        ファイルを選択して下さい
-        <input type="file"  id="file_select" name="file_select"
-                class="hidden" accept="image/*" @change="handleFileSelect" />
+    <div class="mt-4">
+      <label :for="fileInputId" class="bg-lunar-green-200 text-lunar-green-600 hover:bg-lunar-green-300 hover:text-lunar-green-800 rounded-md px-4 py-2 cursor-pointer">
+        添付ファイルを追加
+        <input type="file" :id="fileInputId" name="file_select"
+                class="hidden" accept=".jpg, .jpeg, .png, .gif, .pdf" @change="handleFileSelect" />
       </label>      
     </div>
   </div>

@@ -21,6 +21,7 @@ export default defineOAuthGitHubEventHandler({
         name: appuser.name,
         email: appuser.email,
         role: appuser.role ? appuser.role : 'user',
+        isAdmin: appuser.role === 'admin',
       },
     })
     return sendRedirect(event, '/board')

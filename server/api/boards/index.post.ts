@@ -1,7 +1,9 @@
 import { appendBoard, updateBoard } from "~~/server/utils/board"
+import { requireAdminSession } from "~~/server/utils/session"
 
 export default eventHandler(async (event) => {
-  const { user } = await requireUserSession(event)
+  const { user } = await requireAdminSession(event)
+
   const { id, name, users } = await readBody(event)
 
   if (id > 0) {

@@ -2,8 +2,20 @@ import type { SQL } from 'drizzle-orm'
 import { MessageInsert, like, desc } from './drizzle'
 
 export async function findMessageByBoardId(boardId: number) {
-    return useDrizzle().select().from(tables.messages)
+    return useDrizzle().select({
+            id: tables.messages.id,
+            boardId: tables.messages.boardId,
+            text: tables.messages.text,
+            authorId: tables.messages.authorId,
+            createdAt: tables.messages.createdAt,
+            updatedAt: tables.messages.updatedAt,
+            files: tables.messages.files,
+            authorName: tables.users.name,
+        })
+        .from(tables.messages)
         .where(eq(tables.messages.boardId, boardId))
+        .innerJoin(tables.users, eq(tables.messages.authorId, tables.users.id))
+        .orderBy(desc(tables.messages.createdAt))
         .all()
 }
 

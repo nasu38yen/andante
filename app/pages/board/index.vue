@@ -2,6 +2,7 @@
     definePageMeta({
         middleware: 'auth',
     })
+    const { user } = useUserSession();
 
     const { data: boards } = await useFetch('/api/boards')
 
@@ -14,7 +15,6 @@
         console.log('user is null');
       }
     });  
-
 
     import type { TableColumn } from '@nuxt/ui'
     import { h, resolveComponent } from 'vue'
@@ -46,7 +46,7 @@
     function getRowActionItems(row: Row<Board>) {
       return [
         {
-          label: '編集',
+          label: '設定',
           onSelect() {
             navigateTo(`/board/${row.original.id}/edit`)
           }
@@ -63,9 +63,11 @@
 
 <template>
   <div class="mb-4">
-    <PageTitle>伝言板一覧</PageTitle>
-    <div>
-      <UButton to="/board/create">伝言板を追加</UButton>
+    <div class="flex items-center justify-between">
+      <PageTitle>伝言板一覧</PageTitle>
+      <UButton v-if="user?.isAdmin" to="/board/create" icon="i-lucide-plus">
+        伝言板を追加
+      </UButton>
     </div>
     <UTable :data="boards" :columns="columns" class="flex-1" />
     <p v-if="!boards?.length">

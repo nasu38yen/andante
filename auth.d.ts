@@ -5,6 +5,7 @@ declare module '#auth-utils' {
     name: string
     email: string
     role: string
+    isAdmin: boolean
   }
 }
 

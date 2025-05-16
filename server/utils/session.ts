@@ -21,6 +21,25 @@ export async function requireVerifiedUserSession(event: H3Event, opts: { statusC
   return userSession as UserSessionRequired
 }
 
+export async function requireAdminSession(event: H3Event): Promise<UserSessionRequired> {
+  const userSession = await getUserSession(event)
+
+  if (!userSession.user) {
+    throw createError({
+      statusCode: 401,
+      message: 'Unauthorized',
+    })
+  }
+  if (!userSession.user.isAdmin) {
+    throw createError({
+      statusCode: 403,
+      message: 'Forbidden',
+    })
+  }
+
+  return userSession as UserSessionRequired
+}
+
 export async function updateUserSession(event: H3Event, user: User) {
   await replaceUserSession(event, { user })
 }

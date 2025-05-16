@@ -8,14 +8,14 @@
         usersText.value = JSON.stringify(users)
     };
 
-    const state = reactive({
+    const state = ref({
         email: ''
     })
     async function addUser() {
-        if (state.email) {
-            users.push(state.email)
+        if (state.value.email) {
+            users.push(state.value.email)
             usersText.value = JSON.stringify(users)
-            state.email = ''
+            state.value.email = ''
         } else {
             alert('メールアドレスを入力してください')
         }
@@ -25,12 +25,15 @@
 <template>
     <ul>
       <li v-for="(user, index) in users" :key="index">
-        {{ user }}
-        <UButton @click="removeUser(index)">削除</UButton>
+        <div class="flex items-center">
+            <span class="w-96 px-2">{{ user }}</span>            
+            <UButton @click="removeUser(index)" icon="i-lucide-x" color="neutral" variant="ghost"></UButton>
+        </div>
       </li>
     </ul>
-    <div>
-      <UInput v-model="state.email" placeholder="Type a user's Email" />
-      <UButton @click="addUser">追加</UButton>
+    <div class="flex items-center mt-2">
+      <UInput v-model="state.email" class="w-96" type="email" name="email"
+                placeholder="利用者のメールアドレスを入力して追加ボタンをクリックしてください" />
+      <UButton @click="addUser" icon="i-lucide-plus" color="neutral" variant="ghost"></UButton>
     </div>
 </template>
