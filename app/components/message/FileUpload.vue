@@ -29,7 +29,9 @@
         .then(async () => {
           // console.log(`${file.name} のアップロード成功`);
         })
-        .catch((err) => alert('Failed to upload file:\n'+ err.data?.message))
+        // サーバー側でファイルチェック（type, size）> エラーは捨ててなにもしない
+        //.catch((err) => alert('Failed to upload file:\n'+ err.data?.message))
+        .catch((err) => {})
       }
       selectedFiles.value.splice(0)
     };

@@ -18,6 +18,9 @@
     })
     type Schema = v.InferOutput<typeof schema>
 
+    const filehelp = `添付できるファイルの種別は、画像（jpg, jpeg, png, gif）とPDFとZIPです。最大サイズは16MBです。
+    それ以外のファイルは保存されません`
+
     async function onSubmit(event: FormSubmitEvent<Schema>) {     
       await $fetch('/api/messages/board', {
         method: 'POST',
@@ -44,8 +47,11 @@
       <UTextarea v-model="state.text" :rows="textRows" class="w-full" />
     </UFormField>
 
-    <MessageFilesEdit v-model="state.files" />
-    <MessageFileUpload ref="uploadRef" :id="state.id.toString()"  />
+    <UFormField label="添付ファイル" name="files"
+      :help="filehelp">
+      <MessageFilesEdit v-model="state.files" />
+      <MessageFileUpload ref="uploadRef" :id="state.id.toString()"  />
+    </UFormField>
 
     <div class="flex items-center gap-2 mb-4">
       <UButton type="submit">登録</UButton>

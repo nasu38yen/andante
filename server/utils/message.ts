@@ -11,6 +11,7 @@ export async function findMessageByBoardId(boardId: number) {
             updatedAt: tables.messages.updatedAt,
             files: tables.messages.files,
             authorName: tables.users.name,
+            authorAvatar: tables.users.avatar,
         })
         .from(tables.messages)
         .where(eq(tables.messages.boardId, boardId))

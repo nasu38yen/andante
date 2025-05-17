@@ -22,6 +22,7 @@ export default defineOAuthGitHubEventHandler({
         email: appuser.email,
         role: appuser.role ? appuser.role : 'user',
         isAdmin: appuser.role === 'admin',
+        avatar: appuser.avatar ? appuser.avatar : '/avatar/default.jpg'
       },
     })
     return sendRedirect(event, '/board')

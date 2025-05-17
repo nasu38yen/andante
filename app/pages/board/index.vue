@@ -11,8 +11,6 @@
         // 1件だけの時は、詳細画面に遷移
         const id = boards.value[0]?.id
         navigateTo(`/board/${id}`)     
-      } else {
-        console.log('user is null');
       }
     });  
 
@@ -38,27 +36,31 @@
       {
         id: 'actions',
         cell: ({ row }) => {
+          // 所有してない板は、変更できない
+          if (row.original.authorId !== user.value?.id) {
+            return ""
+          }
           return h(TableActionsColumn, { items: getRowActionItems(row) })
         }
       }
     ]
 
     function getRowActionItems(row: Row<Board>) {
-      return [
-        {
-          label: '設定',
-          onSelect() {
-            navigateTo(`/board/${row.original.id}/edit`)
-          }
-        },
-        {
-          label: '削除',
-          onSelect() {
-            navigateTo(`/board/${row.original.id}/delete`)
-          }
-        },
-      ]
-    }    
+        return [
+          {
+            label: '設定',
+            onSelect() {
+              navigateTo(`/board/${row.original.id}/edit`)
+            }
+          },
+          {
+            label: '削除',
+            onSelect() {
+              navigateTo(`/board/${row.original.id}/delete`)
+            }
+          },
+        ]
+    }
 </script>
 
 <template>

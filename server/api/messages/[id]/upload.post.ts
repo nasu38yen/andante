@@ -12,7 +12,7 @@ export default eventHandler(async (event) => {
 
     const blobs = await hubBlob().handleUpload(event, {
       multiple: false,
-      // ensure: { maxSize: '16MB' },
+      ensure: { maxSize: '16MB', types: ['image/jpeg', 'image/png', 'image/gif', 'application/pdf', 'application/zip'] },
       put: { prefix: id }
     })
 
@@ -21,15 +21,18 @@ export default eventHandler(async (event) => {
         // message.filesの更新
         const files = message.files ? JSON.parse(message.files) : []
         for (const blob of blobs) {
+          //console.log('blob', blob.contentType, blob.pathname)
+          // conttenttype: image/jpeg, image/png, image/gif, application/pdf
+
           const filename = blob.pathname.split('/').pop()
           if (!files.includes(filename!)) {
             files.push(filename!)
           }
 
           // message.textに画像リンクを自動で挿入
-          const type = blob.pathname.split('.').pop()
+          const type = blob.contentType!.split('/').pop()
           const name = filename?.split('.').shift()
-          if (type === 'jpg' || type === 'png' || type === 'gif') {
+          if (type === 'jpeg' || type === 'png' || type === 'gif') {
             const linktext = `![${name}](/files/${blob.pathname})`
             if (!message.text?.includes(linktext)) {
               message.text = message.text ? message.text + '\n' + linktext : linktext

@@ -9,7 +9,9 @@
 <template>
     <ul>
       <li v-for="(file, index) in files" :key="index">
-        <a :href="`/files/${props.messageId}/${file}`" target="_blank">{{ file }}</a>
+        <ULink :href="`/files/${props.messageId}/${file}`" target="_blank" class="hover:text-orange-500">
+          {{ file }}
+        </ULink >
       </li>
     </ul>
 </template>

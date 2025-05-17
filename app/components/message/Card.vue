@@ -84,15 +84,21 @@
     const closeForm = () => {
       showForm.value = false
     } 
+
+    const displayTimestamp = (timestamp: string) => {
+      return  timestamp.substring(0, timestamp.lastIndexOf(':'))
+    }    
 </script>
 
 <template>
   <UCard v-if="!showForm" :ui="{ header: ownMessage ? 'bg-mine-shaft-100' : '' }">
     <template #header>
         <div class="flex items-center justify-between">
-            <div>
+            <div>              
+              <UAvatar :src="`/${props.data.authorAvatar}`" size="sm" class="-ml-4 mr-2" />
               <span>{{ props.data.authorName }}</span>
-              <span class="ml-4">{{ props.data.createdAt }}</span>
+              <span class="ml-4">{{ displayTimestamp(props.data.createdAt) }}</span>
+              <span class="ml-2" v-if="props.data.updatedAt > props.data.createdAt">{{ `(更新 ${displayTimestamp(props.data.updatedAt)})` }}</span>
             </div>
             <UDropdownMenu v-if="ownMessage" 
                 :items="getRowActionItems()" :content="{ align: 'end' }" aria-label="Actions dropdown">

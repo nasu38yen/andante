@@ -16,7 +16,8 @@ export default defineOAuthGoogleEventHandler({
           name: appuser.name,
           email: appuser.email,
           role: appuser.role ? appuser.role : 'user',   
-          isAdmin: appuser.role === 'admin',       
+          isAdmin: appuser.role === 'admin',
+          avatar: appuser.avatar ? appuser.avatar : '/avatar/default.jpg'
         },
       })
 

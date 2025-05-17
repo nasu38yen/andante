@@ -1,6 +1,3 @@
-import type { SQL } from 'drizzle-orm'
-import type { UserInsert } from '~~/server/utils/drizzle'
-
 export async function findUserByEmail(email: string) {
   return useDrizzle()
     .select()
@@ -14,4 +11,10 @@ export async function findAllUsers() {
     .select()
     .from(tables.users)
     .all()
+}
+
+export async function updateUser(id: number, password: string) {
+    return useDrizzle().update(tables.users).set({
+        password: password,
+      }).where(eq(tables.users.id, id)).returning().get()    
 }

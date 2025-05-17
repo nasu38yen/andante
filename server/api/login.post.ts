@@ -16,6 +16,7 @@ export default defineEventHandler(async (event) => {
                 email: user.email,
                 role: user.role ? user.role : 'user',
                 isAdmin: user.role === 'admin',
+                avatar: user.avatar ? user.avatar : '/avatar/default.jpg'
             }
         })
         return {}
