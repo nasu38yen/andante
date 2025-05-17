@@ -7,7 +7,7 @@
     const { data: boards } = await useFetch('/api/boards')
 
     onMounted(() => {
-      if (boards.value && boards.value.length === 1)  {
+      if (user && user.value?.isAdmin && boards.value && boards.value.length === 1)  {
         // 1件だけの時は、詳細画面に遷移
         const id = boards.value[0]?.id
         navigateTo(`/board/${id}`)     
