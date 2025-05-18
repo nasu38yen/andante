@@ -42,9 +42,10 @@ export async function updateBoard(board: BoardInsert) {
       }).where(eq(tables.boards.id, board.id!)).returning().get()    
 }
 
+import { DateTime } from 'luxon'
 export async function updateBoardTimestamp(boardId: number) {
     return useDrizzle().update(tables.boards).set({
-        updatedAt: new Date().toLocaleString()
+        updatedAt: DateTime.utc().setZone('Asia/Tokyo').toFormat('yyyy/MM/dd HH:mm:ss')
       }).where(eq(tables.boards.id, boardId!)).returning().get()    
 }
   
