@@ -29,6 +29,15 @@
       return marked.parse(props.data.text)
     })
 
+    const updated = computed(() => {
+      const updatedAt = new Date(props.data.updatedAt)
+      const createdAt = new Date(props.data.createdAt)
+      const diff = updatedAt.getTime() - createdAt.getTime()
+      const diffInHours = Math.floor(diff / (1000 * 60 * 60))
+      // 5時間以上経過している場合は更新日時を表示
+      return diffInHours > 5;
+    })
+
     const emit = defineEmits(["updated"])
 
     function getRowActionItems() {
@@ -98,7 +107,7 @@
               <UAvatar :src="`/${props.data.authorAvatar}`" size="sm" class="-ml-4 mr-2" />
               <span>{{ props.data.authorName }}</span>
               <span class="ml-4">{{ displayTimestamp(props.data.createdAt) }}</span>
-              <span class="ml-2" v-if="props.data.updatedAt > props.data.createdAt">{{ `(更新 ${displayTimestamp(props.data.updatedAt)})` }}</span>
+              <span class="ml-2" v-if="updated">{{ `(更新 ${displayTimestamp(props.data.updatedAt)})` }}</span>
             </div>
             <UDropdownMenu v-if="ownMessage" 
                 :items="getRowActionItems()" :content="{ align: 'end' }" aria-label="Actions dropdown">

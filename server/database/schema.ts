@@ -2,10 +2,10 @@ import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core'
 
 const timestamps = {
   createdAt: text('created_at').notNull()
-    .$defaultFn(() => new Date().toLocaleString()),
+    .$defaultFn(() => new Date().toLocaleString("ja-JP")),
   updatedAt: text('updated_at')
-    .$defaultFn(() => new Date().toLocaleString())
-    .$onUpdateFn(() => new Date().toLocaleString()),
+    .$defaultFn(() => new Date().toLocaleString("ja-JP"))
+    .$onUpdateFn(() => new Date().toLocaleString("ja-JP")),
 }
 
 export const users = sqliteTable('users', {

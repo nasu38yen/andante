@@ -1,4 +1,4 @@
-import { updateUser } from "~~/server/utils/user"
+import { updatePassword, updateUser } from "~~/server/utils/user"
 
 export default eventHandler(async (event) => {
     const { user } = await requireUserSession(event)
@@ -13,7 +13,7 @@ export default eventHandler(async (event) => {
         throw createError({statusCode: 404, message: 'User not found' })
     }
 
-    await updateUser(user.id, password1)    
+    await updatePassword(user.id, password1)    
     await setUserSession(event, {
         user: {
             id: urec.id,
