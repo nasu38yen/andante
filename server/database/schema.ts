@@ -1,11 +1,12 @@
 import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core'
+import { DateTime } from 'luxon'
 
 const timestamps = {
   createdAt: text('created_at').notNull()
-    .$defaultFn(() => new Date().toLocaleString("ja-JP")),
+    .$defaultFn(() => DateTime.utc().setZone('Asia/Tokyo').toFormat('yyyy/MM/dd HH:mm:ss')),
   updatedAt: text('updated_at')
-    .$defaultFn(() => new Date().toLocaleString("ja-JP"))
-    .$onUpdateFn(() => new Date().toLocaleString("ja-JP")),
+    .$defaultFn(() => DateTime.utc().setZone('Asia/Tokyo').toFormat('yyyy/MM/dd HH:mm:ss'))
+    .$onUpdateFn(() => DateTime.utc().setZone('Asia/Tokyo').toFormat('yyyy/MM/dd HH:mm:ss')),
 }
 
 export const users = sqliteTable('users', {
