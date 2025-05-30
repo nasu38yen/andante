@@ -11,7 +11,7 @@
 
 <template>
   <main>
-    <PageTitle>ようこそ Andante伝言板へ</PageTitle>
+    <PageTitle>ようこそ Andante伝言板</PageTitle>
     <div class="flex flex-col justify-center mb-8">
       <p class="text-lg mb-8">ログインしてお進みください</p>
       <div class="flex space-x-4">
