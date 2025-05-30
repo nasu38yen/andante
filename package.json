@@ -16,7 +16,7 @@
     "@nuxt/eslint": "^0.7.5",
     "@nuxt/kit": "^3.17.3",
     "@nuxt/ui": "^3.1.2",
-    "@nuxthub/core": "^0.8.12",
+    "@nuxthub/core": "npm:@nuxthub/core@nightly",
     "@types/luxon": "^3.6.2",
     "drizzle-orm": "^0.41.0",
     "highlight.js": "^11.11.1",
