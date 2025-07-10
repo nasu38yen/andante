@@ -16,6 +16,11 @@ export default eventHandler(async (event) => {
       throw createError({ statusCode: 403, statusMessage: "Forbidden", message: "Not own" })
   }
 
+  setHeader(event, 'Cache-Control', 'no-store, no-cache, must-revalidate, private')
+  setHeader(event, 'Pragma', 'no-cache')
+  setHeader(event, 'Expires', '0')
+  setHeader(event, 'Content-Security-Policy', 'default-src \'none\';')
+
   setHeader(event, 'Content-Security-Policy', 'default-src \'none\';')
   return hubBlob().serve(event, pathname)
 })
