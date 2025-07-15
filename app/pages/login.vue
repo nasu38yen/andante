@@ -6,7 +6,7 @@
     <PageTitle>ログイン</PageTitle>
     <LoginForm />
     <div class="my-8">
-      <p>または、以下のボタンをクリックしてログインしてください。</p>    
+      <p>または、以下のボタンをクリックしてログインしてください。</p>
       <OAuthLogins class="mt-4" />
     </div>
   </div>

@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "nuxt dev",
+    "dev:remote": "nuxt dev --remote=production",
     "build": "nuxt build",
     "preview": "npx nuxthub preview",
     "deploy": "npx nuxthub deploy",

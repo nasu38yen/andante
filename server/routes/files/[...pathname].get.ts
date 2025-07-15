@@ -16,6 +16,11 @@ export default eventHandler(async (event) => {
       throw createError({ statusCode: 403, statusMessage: "Forbidden", message: "Not own" })
   }
 
+  // CDNやブラウザにキャッシュさせないようにヘッダーを設定
+  setHeader(event, 'Cache-Control', 'private, no-cache, no-store, must-revalidate')
+  setHeader(event, 'Pragma', 'no-cache') // HTTP/1.0 互換
+  setHeader(event, 'Expires', '0') // プロキシサーバー向け
+
   setHeader(event, 'Content-Security-Policy', 'default-src \'none\';')
   return hubBlob().serve(event, pathname)
 })
